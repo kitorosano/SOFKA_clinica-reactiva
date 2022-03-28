@@ -11,20 +11,22 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
+@CrossOrigin(origins = "*")
+@RequestMapping("/citasReactiva")
 public class citasReactivaController {
 
     @Autowired
     private IcitasReactivaService icitasReactivaService;
 
     // CREATION
-    @PostMapping("/citasReactivas")
-    @ResponseStatus(HttpStatus.CREATED)
-    private Mono<citasDTOReactiva> save(@RequestBody citasDTOReactiva citasDTOReactiva) {
+    @PostMapping("")
+    public Mono<citasDTOReactiva> save(@RequestBody citasDTOReactiva citasDTOReactiva) {
+        System.out.println(citasDTOReactiva);
         return this.icitasReactivaService.save(citasDTOReactiva);
     }
     
     //Agregar Padecimientos y tratamientos
-    @PostMapping("/citasReactivas/historia")
+    @PostMapping("/historia")
     @ResponseStatus(HttpStatus.CREATED)
     public Flux<citasDTOReactiva> agregarHistoriaClinica(String IdPaciente,String padecimiento, String tratamiento){
       return this.icitasReactivaService.agregarHistoriaClinica(IdPaciente, padecimiento, tratamiento);
@@ -32,31 +34,31 @@ public class citasReactivaController {
 // ============================================
     
     // READING 
-    @GetMapping("/citasReactivas/paciente/{idPaciente}")
-    private Flux<citasDTOReactiva> findAllByidPaciente(@PathVariable("idPaciente") String idPaciente) {
+    @GetMapping("/paciente/{idPaciente}")
+    public Flux<citasDTOReactiva> findAllByidPaciente(@PathVariable("idPaciente") String idPaciente) {
         return this.icitasReactivaService.findByIdPaciente(idPaciente);
     }
 
-    @GetMapping(value = "/citasReactivas")
-    private Flux<citasDTOReactiva> findAll() {
+    @GetMapping(value = "")
+    public Flux<citasDTOReactiva> findAll() {
         return this.icitasReactivaService.findAll();
     }
     
-    @GetMapping("citasReactivas/{fechaReserva}/{horaReserva}")
-    private Mono<citasDTOReactiva> consultarFechaHora(@PathVariable("fechaReserva") String fechaReserva, @PathVariable("horaReserva") String horaReserva) {
+    @GetMapping("/{fechaReserva}/{horaReserva}")
+    public Mono<citasDTOReactiva> consultarFechaHora(@PathVariable("fechaReserva") String fechaReserva, @PathVariable("horaReserva") String horaReserva) {
         return this.icitasReactivaService.findByFechaAndHora(fechaReserva, horaReserva);
     }
 
-    @GetMapping("/citasReactivas/medico/{id}")
-    private Mono<String> consultarMedicoConsulta(@PathVariable("id") String idPaciente){
+    @GetMapping("/medico/{id}")
+    public Mono<String> consultarMedicoConsulta(@PathVariable("id") String idPaciente){
         return this.icitasReactivaService.findById(idPaciente)
         .flatMap(citasDTOReactiva1 -> Mono.just(citasDTOReactiva1.getNombreMedico())).switchIfEmpty(Mono.empty());
     }
 
 // ============================================
     // UPDATING
-    @PutMapping("/citasReactivas/{id}")
-    private Mono<ResponseEntity<citasDTOReactiva>> update(@PathVariable("id") String id, @RequestBody citasDTOReactiva citasDTOReactiva) {
+    @PutMapping("/{id}")
+    public Mono<ResponseEntity<citasDTOReactiva>> update(@PathVariable("id") String id, @RequestBody citasDTOReactiva citasDTOReactiva) {
         return this.icitasReactivaService.update(id, citasDTOReactiva)
                 .flatMap(citasDTOReactiva1 -> Mono.just(ResponseEntity.ok(citasDTOReactiva1)))
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
@@ -64,8 +66,8 @@ public class citasReactivaController {
     }
 
     // CancelarCita
-    @PutMapping("/citasReactivas/{id}/cancelar")
-    private Mono<ResponseEntity<citasDTOReactiva>> cancelarCita(@PathVariable("id") String id) {
+    @PutMapping("/{id}/cancelar")
+    public Mono<ResponseEntity<citasDTOReactiva>> cancelarCita(@PathVariable("id") String id) {
       return this.icitasReactivaService.cancelarCita(id)
               .flatMap(citasDTOReactiva1 -> Mono.just(ResponseEntity.ok(citasDTOReactiva1)))
               .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
@@ -74,8 +76,8 @@ public class citasReactivaController {
     // ============================================
 
     // DELETION
-    @DeleteMapping("/citasReactivas/{id}")
-    private Mono<ResponseEntity<citasDTOReactiva>> delete(@PathVariable("id") String id) {
+    @DeleteMapping("/{id}")
+    public Mono<ResponseEntity<citasDTOReactiva>> delete(@PathVariable("id") String id) {
         return this.icitasReactivaService.delete(id)
                 .flatMap(citasDTOReactiva -> Mono.just(ResponseEntity.ok(citasDTOReactiva)))
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));

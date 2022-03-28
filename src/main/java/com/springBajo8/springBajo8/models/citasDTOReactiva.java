@@ -11,7 +11,7 @@ import java.util.UUID;
 public class citasDTOReactiva {
 
     @Id
-    private String id = UUID.randomUUID().toString().substring(0, 10);
+    private String  id = UUID.randomUUID().toString().substring(0, 10);
 
     private String idPaciente;
 
@@ -23,13 +23,28 @@ public class citasDTOReactiva {
 
     private String apellidosMedico;
 
-    private LocalDate fechaReservaCita;
+    private String fechaReservaCita;
 
     private String horaReservaCita;
 
     private String estadoReservaCita;
 
-    private HashMap<String,String> HistoriaClinica;
+    private HashMap<String,String> historiaClinica;
+
+
+  public citasDTOReactiva(String id, String idPaciente, String nombrePaciente, String apellidosPaciente, String nombreMedico, String apellidosMedico, String fechaReservaCita, String horaReservaCita, String estadoReservaCita, HashMap<String,String> historiaClinica) {
+    this.id = id;
+    this.idPaciente = idPaciente;
+    this.nombrePaciente = nombrePaciente;
+    this.apellidosPaciente = apellidosPaciente;
+    this.nombreMedico = nombreMedico;
+    this.apellidosMedico = apellidosMedico;
+    this.fechaReservaCita = fechaReservaCita;
+    this.horaReservaCita = horaReservaCita;
+    this.estadoReservaCita = estadoReservaCita;
+    this.historiaClinica = historiaClinica;
+  }
+
 
     public String getId() {
         return id;
@@ -79,11 +94,11 @@ public class citasDTOReactiva {
         this.apellidosMedico = apellidosMedico;
     }
 
-    public LocalDate getFechaReservaCita() {
+    public String getFechaReservaCita() {
         return fechaReservaCita;
     }
 
-    public void setFechaReservaCita(LocalDate fechaReservaCita) {
+    public void setFechaReservaCita(String fechaReservaCita) {
         this.fechaReservaCita = fechaReservaCita;
     }
 
@@ -103,13 +118,29 @@ public class citasDTOReactiva {
         this.estadoReservaCita = estadoReservaCita;
     }
 
-    public HashMap<String, String> getHistoriaClinica() {
-      return HistoriaClinica;
+    public HashMap<String, String> gethistoriaClinica() {
+      return historiaClinica;
     }
 
-    public void setHistoriaClinica(HashMap<String,String> historiaClinica) {
-        HistoriaClinica = historiaClinica;
+    public void sethistoriaClinica(HashMap<String,String> historiaClinica) {
+        historiaClinica = historiaClinica;
     }
 
+
+  @Override
+  public String toString() {
+    return "{" +
+      " id='" + getId() + "'" +
+      ", idPaciente='" + getIdPaciente() + "'" +
+      ", nombrePaciente='" + getNombrePaciente() + "'" +
+      ", apellidosPaciente='" + getApellidosPaciente() + "'" +
+      ", nombreMedico='" + getNombreMedico() + "'" +
+      ", apellidosMedico='" + getApellidosMedico() + "'" +
+      ", fechaReservaCita='" + getFechaReservaCita() + "'" +
+      ", horaReservaCita='" + getHoraReservaCita() + "'" +
+      ", estadoReservaCita='" + getEstadoReservaCita() + "'" +
+      ", historiaClinica='" + gethistoriaClinica() + "'" +
+      "}";
+  }
 
 }

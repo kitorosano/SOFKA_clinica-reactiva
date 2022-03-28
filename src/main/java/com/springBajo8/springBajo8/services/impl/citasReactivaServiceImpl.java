@@ -1,11 +1,9 @@
-package com.springBajo8.springBajo8.service.impl;
+package com.springBajo8.springBajo8.services.impl;
 
-//import com.yoandypv.reactivestack.messages.domain.Message;
-//import com.yoandypv.reactivestack.messages.repository.MessageRepository;
-//import com.yoandypv.reactivestack.messages.service.MessageService;
-import com.springBajo8.springBajo8.domain.citasDTOReactiva;
-import com.springBajo8.springBajo8.repository.IcitasReactivaRepository;
-import com.springBajo8.springBajo8.service.IcitasReactivaService;
+import com.springBajo8.springBajo8.models.citasDTOReactiva;
+import com.springBajo8.springBajo8.repositories.IcitasReactivaRepository;
+import com.springBajo8.springBajo8.services.IcitasReactivaService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -54,5 +52,17 @@ public class citasReactivaServiceImpl implements IcitasReactivaService {
     @Override
     public Mono<citasDTOReactiva> findById(String id) {
         return this.IcitasReactivaRepository.findById(id);
+    }
+
+
+       @Override
+    public Mono<citasDTOReactiva> cancelarCita(String id) {
+        return this.IcitasReactivaRepository.findById(id)
+                .flatMap(citasDTOReactiva1 -> {
+                    citasDTOReactiva.setId(id);
+                    citasDTOReactiva.setEstadoReservaCita("Cancelado");
+                    return save(citasDTOReactiva);
+                })
+                .switchIfEmpty(Mono.empty());
     }
 }

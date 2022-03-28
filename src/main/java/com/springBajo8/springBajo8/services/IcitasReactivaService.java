@@ -1,7 +1,7 @@
-package com.springBajo8.springBajo8.service;
+package com.springBajo8.springBajo8.services;
 
-//import com.yoandypv.reactivestack.messages.domain.Message;
-import com.springBajo8.springBajo8.domain.citasDTOReactiva;
+import com.springBajo8.springBajo8.models.citasDTOReactiva;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -17,4 +17,6 @@ public interface IcitasReactivaService {
     Flux<citasDTOReactiva> findAll();
 
     Mono<citasDTOReactiva> findById(String id);
+
+    Mono<citasDTOReactiva> cancelarCita(String id, citasDTOReactiva citasDTOReactiva);
 }

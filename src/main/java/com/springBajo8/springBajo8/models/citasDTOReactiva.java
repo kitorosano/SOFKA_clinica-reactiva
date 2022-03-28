@@ -1,4 +1,4 @@
-package com.springBajo8.springBajo8.domain;
+package com.springBajo8.springBajo8.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

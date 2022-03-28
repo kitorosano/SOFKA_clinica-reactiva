@@ -1,12 +1,6 @@
 package com.springBajo8.springBajo8.controllers;
 
-
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-
 import com.springBajo8.springBajo8.models.citasDTOReactiva;
-import com.springBajo8.springBajo8.repositories.IcitasReactivaRepository;
 import com.springBajo8.springBajo8.services.IcitasReactivaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +44,7 @@ public class citasReactivaController {
     
     @GetMapping("citasReactivas/{fechaReserva}/{horaReserva}")
     private Mono<citasDTOReactiva> consultarFechaHora(@PathVariable("fechaReserva") String fechaReserva, @PathVariable("horaReserva") String horaReserva) {
-        return this.icitasReactivaService.findByFechaYHora(fechaReserva, horaReserva);
+        return this.icitasReactivaService.findByFechaAndHora(fechaReserva, horaReserva);
     }
 
     @GetMapping("/citasReactivas/medico/{id}")

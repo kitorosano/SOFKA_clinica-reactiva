@@ -46,8 +46,8 @@ public class citasReactivaServiceImpl implements IcitasReactivaService {
     }
 
     @Override
-    public Mono<citasDTOReactiva> findByFechaYHora(String fechaReservaCita, String horaReservaCita) {
-      return this.IcitasReactivaRepository.findByFechaYHora(fechaReservaCita, horaReservaCita);
+    public Mono<citasDTOReactiva> findByFechaAndHora(String fechaReservaCita, String horaReservaCita) {
+      return this.IcitasReactivaRepository.findByFechaReservaCitaAndHoraReservaCita(fechaReservaCita, horaReservaCita);
     }
 
     @Override

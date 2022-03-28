@@ -14,7 +14,7 @@ public interface IcitasReactivaService {
 
     Flux<citasDTOReactiva> findByIdPaciente(String idPaciente);
     
-    Mono<citasDTOReactiva> findByFechaYHora(String fechaReservaCita, String horaReservaCita);
+    Mono<citasDTOReactiva> findByFechaAndHora(String fechaReservaCita, String horaReservaCita);
 
     Flux<citasDTOReactiva> findAll();
 

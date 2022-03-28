@@ -1,7 +1,11 @@
 package com.springBajo8.springBajo8.controllers;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import com.springBajo8.springBajo8.models.citasDTOReactiva;
 import com.springBajo8.springBajo8.services.IcitasReactivaService;
+import com.springBajo8.springBajo8.models.PadecimientoTratamiento;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,74 +19,59 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/citasReactiva")
 public class citasReactivaController {
 
-    @Autowired
-    private IcitasReactivaService icitasReactivaService;
+  @Autowired
+  private IcitasReactivaService icitasReactivaService;
+  
+  @PostMapping("/citasReactivas")
+  @ResponseStatus(HttpStatus.CREATED)
+  private Mono<citasDTOReactiva> save(@RequestBody citasDTOReactiva citasDTOReactiva) {
+      return this.icitasReactivaService.save(citasDTOReactiva);
+  }
 
-    // CREATION
-    @PostMapping("")
-    public Mono<citasDTOReactiva> save(@RequestBody citasDTOReactiva citasDTOReactiva) {
-        System.out.println(citasDTOReactiva);
-        return this.icitasReactivaService.save(citasDTOReactiva);
-    }
-    
-    //Agregar Padecimientos y tratamientos
-    @PostMapping("/historia")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Flux<citasDTOReactiva> agregarHistoriaClinica(String IdPaciente,String padecimiento, String tratamiento){
-      return this.icitasReactivaService.agregarHistoriaClinica(IdPaciente, padecimiento, tratamiento);
-    }
-// ============================================
-    
-    // READING 
-    @GetMapping("/paciente/{idPaciente}")
-    public Flux<citasDTOReactiva> findAllByidPaciente(@PathVariable("idPaciente") String idPaciente) {
-        return this.icitasReactivaService.findByIdPaciente(idPaciente);
-    }
+  @DeleteMapping("/citasReactivas/{id}")
+  private Mono<ResponseEntity<citasDTOReactiva>> delete(@PathVariable("id") String id) {
+      return this.icitasReactivaService.delete(id)
+              .flatMap(citasDTOReactiva -> Mono.just(ResponseEntity.ok(citasDTOReactiva)))
+              .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
 
-    @GetMapping(value = "")
-    public Flux<citasDTOReactiva> findAll() {
-        return this.icitasReactivaService.findAll();
-    }
-    
-    @GetMapping("/{fechaReserva}/{horaReserva}")
-    public Mono<citasDTOReactiva> consultarFechaHora(@PathVariable("fechaReserva") String fechaReserva, @PathVariable("horaReserva") String horaReserva) {
-        return this.icitasReactivaService.findByFechaAndHora(fechaReserva, horaReserva);
-    }
+  }
 
-    @GetMapping("/medico/{id}")
-    public Mono<String> consultarMedicoConsulta(@PathVariable("id") String idPaciente){
-        return this.icitasReactivaService.findById(idPaciente)
-        .flatMap(citasDTOReactiva1 -> Mono.just(citasDTOReactiva1.getNombreMedico())).switchIfEmpty(Mono.empty());
-    }
-
-// ============================================
-    // UPDATING
-    @PutMapping("/{id}")
-    public Mono<ResponseEntity<citasDTOReactiva>> update(@PathVariable("id") String id, @RequestBody citasDTOReactiva citasDTOReactiva) {
-        return this.icitasReactivaService.update(id, citasDTOReactiva)
-                .flatMap(citasDTOReactiva1 -> Mono.just(ResponseEntity.ok(citasDTOReactiva1)))
-                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
-
-    }
-
-    // CancelarCita
-    @PutMapping("/{id}/cancelar")
-    public Mono<ResponseEntity<citasDTOReactiva>> cancelarCita(@PathVariable("id") String id) {
-      return this.icitasReactivaService.cancelarCita(id)
+  @PutMapping("/citasReactivas/{id}")
+  private Mono<ResponseEntity<citasDTOReactiva>> update(@PathVariable("id") String id, @RequestBody citasDTOReactiva citasDTOReactiva) {
+      return this.icitasReactivaService.update(id, citasDTOReactiva)
               .flatMap(citasDTOReactiva1 -> Mono.just(ResponseEntity.ok(citasDTOReactiva1)))
               .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
 
-    }
-    // ============================================
+  }
 
-    // DELETION
-    @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<citasDTOReactiva>> delete(@PathVariable("id") String id) {
-        return this.icitasReactivaService.delete(id)
-                .flatMap(citasDTOReactiva -> Mono.just(ResponseEntity.ok(citasDTOReactiva)))
-                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+  @GetMapping("/citasReactivas/{idPaciente}/byidPaciente")
+  private Flux<citasDTOReactiva> findAllByidPaciente(@PathVariable("idPaciente") String idPaciente) {
+      return this.icitasReactivaService.findByIdPaciente(idPaciente);
+  }
 
-    }
-    // ============================================
-  
+  @GetMapping(value = "/citasReactivas")
+  private Flux<citasDTOReactiva> findAll() {
+      return this.icitasReactivaService.findAll();
+  }
+
+  @PutMapping("/cancelarCita/{idPaciente}/byidPaciente")
+  private Flux<citasDTOReactiva> cancelarCitaByidPaciente(@PathVariable("idPaciente") String idPaciente) {
+      return this.icitasReactivaService.cancelarCita(idPaciente);
+  }
+
+  @GetMapping("/consultarFechaHora/{fecha}/{hora}")
+  private Flux<citasDTOReactiva> consultarFechaHora(@PathVariable("fecha") String fecha, @PathVariable("hora") String hora) {
+      LocalDate fechaParseada = LocalDate.parse(fecha);
+      return this.icitasReactivaService.consultarFechaYHora(fechaParseada, hora);
+  }
+
+  @GetMapping("/consultarMedico/{idPaciente}/byidPaciente")
+  private Flux<citasDTOReactiva> consultarMedicoByIdPaciente(@PathVariable("idPaciente") String idPaciente) {
+      return this.icitasReactivaService.consultarMedicoQueLoAtendera(idPaciente);
+  }
+
+  @GetMapping("/consultarTratamiento/{idPaciente}/byidPaciente")
+  private Flux<List<PadecimientoTratamiento>> consultarTratamientoByIdPaciente(@PathVariable("idPaciente") String idPaciente) {
+      return this.icitasReactivaService.consultarTratamientosYPadecimientos(idPaciente);
+  }
 }

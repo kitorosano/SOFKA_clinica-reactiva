@@ -1,5 +1,7 @@
 package com.springBajo8.springBajo8.services.impl;
 
+import java.util.HashMap;
+
 import com.springBajo8.springBajo8.models.citasDTOReactiva;
 import com.springBajo8.springBajo8.repositories.IcitasReactivaRepository;
 import com.springBajo8.springBajo8.services.IcitasReactivaService;
@@ -40,9 +42,13 @@ public class citasReactivaServiceImpl implements IcitasReactivaService {
 
     @Override
     public Flux<citasDTOReactiva> findByIdPaciente(String idPaciente) {
-        return this.IcitasReactivaRepository.findByIdPaciente(idPaciente);
+      return this.IcitasReactivaRepository.findByIdPaciente(idPaciente);
     }
 
+    @Override
+    public Mono<citasDTOReactiva> findByFechaYHora(String fechaReservaCita, String horaReservaCita) {
+      return this.IcitasReactivaRepository.findByFechaYHora(fechaReservaCita, horaReservaCita);
+    }
 
     @Override
     public Flux<citasDTOReactiva> findAll() {
@@ -53,16 +59,30 @@ public class citasReactivaServiceImpl implements IcitasReactivaService {
     public Mono<citasDTOReactiva> findById(String id) {
         return this.IcitasReactivaRepository.findById(id);
     }
-
-
-       @Override
+    
+    @Override
     public Mono<citasDTOReactiva> cancelarCita(String id) {
-        return this.IcitasReactivaRepository.findById(id)
-                .flatMap(citasDTOReactiva1 -> {
-                    citasDTOReactiva.setId(id);
-                    citasDTOReactiva.setEstadoReservaCita("Cancelado");
-                    return save(citasDTOReactiva);
-                })
-                .switchIfEmpty(Mono.empty());
+      return this.IcitasReactivaRepository.findById(id)
+              .flatMap(citasDTOReactiva1 -> {
+                  citasDTOReactiva1.setId(id);
+                  citasDTOReactiva1.setEstadoReservaCita("Cancelado");
+                  return save(citasDTOReactiva1);
+              })
+              .switchIfEmpty(Mono.empty());
     }
+
+    //Agregar Padecimientos y tratamientos
+    @Override
+    public Flux<citasDTOReactiva> agregarHistoriaClinica(String IdPaciente,String padecimiento, String tratamiento){
+      return IcitasReactivaRepository.findByIdPaciente(IdPaciente)
+              .flatMap(citasDTOReactiva1 -> {
+                  HashMap<String,String> historia = citasDTOReactiva1.getHistoriaClinica();
+                  historia.put("ID", IdPaciente);
+                  historia.put("Tratamiento",historia.get("Tratamiento") + "," + tratamiento);
+                  historia.put("Padecimiento",historia.get("Padecimiento") + "," + tratamiento);
+                  return save(citasDTOReactiva1);
+              }).switchIfEmpty(Mono.empty());
+      }
+
+      
 }

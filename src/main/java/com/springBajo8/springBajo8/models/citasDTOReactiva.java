@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 @Document(collection = "citas")
@@ -28,6 +28,8 @@ public class citasDTOReactiva {
     private String horaReservaCita;
 
     private String estadoReservaCita;
+
+    private HashMap<String,String> HistoriaClinica;
 
     public String getId() {
         return id;
@@ -101,7 +103,13 @@ public class citasDTOReactiva {
         this.estadoReservaCita = estadoReservaCita;
     }
 
-    //private Date sendedDate = new Date();
+    public HashMap<String, String> getHistoriaClinica() {
+      return HistoriaClinica;
+    }
+
+    public void setHistoriaClinica(HashMap<String,String> historiaClinica) {
+        HistoriaClinica = historiaClinica;
+    }
 
 
 }

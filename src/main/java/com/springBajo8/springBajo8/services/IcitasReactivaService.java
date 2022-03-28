@@ -13,10 +13,14 @@ public interface IcitasReactivaService {
     Mono<citasDTOReactiva> update(String id, citasDTOReactiva citasDTOReactiva);
 
     Flux<citasDTOReactiva> findByIdPaciente(String idPaciente);
+    
+    Mono<citasDTOReactiva> findByFechaYHora(String fechaReservaCita, String horaReservaCita);
 
     Flux<citasDTOReactiva> findAll();
 
     Mono<citasDTOReactiva> findById(String id);
 
-    Mono<citasDTOReactiva> cancelarCita(String id, citasDTOReactiva citasDTOReactiva);
+    Mono<citasDTOReactiva> cancelarCita(String id);
+    
+    Flux<citasDTOReactiva> agregarHistoriaClinica(String IdPaciente, String padecimiento, String tratamiento);
 }

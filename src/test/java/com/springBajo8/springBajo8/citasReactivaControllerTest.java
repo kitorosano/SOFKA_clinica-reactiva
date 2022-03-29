@@ -1,5 +1,6 @@
 package com.springBajo8.springBajo8;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.springBajo8.springBajo8.models.PadecimientoTratamiento;
@@ -56,7 +57,7 @@ public class citasReactivaControllerTest {
 
   @Test
   @DisplayName("Find citas by DateAndHour")
-  void consultDateAndHour() {
+  void consultarDateAndHour() {
     citasDTOReactiva cita = new citasDTOReactiva("1", "Pedro", "Alvarez", "Bob", "Marley", "2022-02-22", "18:34", "Reservada", null);
     Flux<citasDTOReactiva> uno = service.consultarFechaYHora(cita.getFechaReservaCita(),cita.getHoraReservaCita());
     StepVerifier.create(uno).expectNext(cita);
@@ -72,9 +73,10 @@ public class citasReactivaControllerTest {
 
   @Test
   @DisplayName("Find tratamientos by citaId")
-  void consultTratamientosYPadecimientos() {
-    List<PadecimientoTratamiento> lista = List.of(new PadecimientoTratamiento("mucha facha","dormir"));
-    
+  void consultarPadecimientoTratamiento() {
+    PadecimientoTratamiento padecimiento = new PadecimientoTratamiento("mucha facha", "dormir");
+    List<PadecimientoTratamiento> lista = new ArrayList<PadecimientoTratamiento>();
+    lista.add(padecimiento);
     citasDTOReactiva cita = new citasDTOReactiva("1", "Pedro", "Alvarez", "Bob", "Marley", "2022-02-22", "18:34", "Reservada", lista);
     Mono<List<PadecimientoTratamiento>> find = service.consultarPadecimientoTratamiento("1");
     StepVerifier.create(find).expectNext(cita.getTratamientosList());

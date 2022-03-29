@@ -1,6 +1,7 @@
 package com.springBajo8.springBajo8.controllers;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import com.springBajo8.springBajo8.models.citasDTOReactiva;
@@ -47,7 +48,7 @@ public class citasReactivaController {
 
   }
 
-  @GetMapping("/{idPaciente}/byidPaciente")
+  @GetMapping("/idPaciente/{idPaciente}")
   public Flux<citasDTOReactiva> findAllByidPaciente(@PathVariable("idPaciente") String idPaciente) {
       return this.icitasReactivaService.findByIdPaciente(idPaciente);
   }
@@ -57,24 +58,26 @@ public class citasReactivaController {
       return this.icitasReactivaService.findAll();
   }
 
-  @PutMapping("/cancelarCita/{idPaciente}/byidPaciente")
-  public Flux<citasDTOReactiva> cancelarCitaByidPaciente(@PathVariable("idPaciente") String idPaciente) {
-      return this.icitasReactivaService.cancelarCita(idPaciente);
+  @PutMapping("/{id}/cancelar")
+  public Mono<citasDTOReactiva> cancelarCitaById(@PathVariable("id") String id) {
+      return this.icitasReactivaService.cancelarCita(id);
   }
 
   @GetMapping("/consultarFechaHora/{fecha}/{hora}")
   public Flux<citasDTOReactiva> consultarFechaHora(@PathVariable("fecha") String fecha, @PathVariable("hora") String hora) {
       LocalDate fechaParseada = LocalDate.parse(fecha);
-      return this.icitasReactivaService.consultarFechaYHora(fechaParseada, hora);
+      LocalTime horaParseada = LocalTime.parse(hora);
+      return this.icitasReactivaService.consultarFechaYHora(fechaParseada, horaParseada);
   }
 
-  @GetMapping("/consultarMedico/{idPaciente}/byidPaciente")
-  public Flux<citasDTOReactiva> consultarMedicoByIdPaciente(@PathVariable("idPaciente") String idPaciente) {
-      return this.icitasReactivaService.consultarMedicoQueLoAtendera(idPaciente);
+  @GetMapping("/{id}/consultarMedico")
+  public Mono<citasDTOReactiva> consultarMedico(@PathVariable("id") String id) {
+      return this.icitasReactivaService.consultarMedico(id);
   }
 
-  @GetMapping("/consultarTratamiento/{idPaciente}/byidPaciente")
-  public Flux<List<PadecimientoTratamiento>> consultarTratamientoByIdPaciente(@PathVariable("idPaciente") String idPaciente) {
-      return this.icitasReactivaService.consultarTratamientosYPadecimientos(idPaciente);
+  @GetMapping("/{id}/consultarTratamiento")
+  public Mono<List<PadecimientoTratamiento>> consultarTratamiento(@PathVariable("id") String id) {
+      return this.icitasReactivaService.consultarPadecimientoTratamiento(id);
   }
+
 }

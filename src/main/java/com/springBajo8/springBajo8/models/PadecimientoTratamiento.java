@@ -2,12 +2,12 @@ package com.springBajo8.springBajo8.models;
 
 public class PadecimientoTratamiento {
   
-  private  String padecimiento;
-  private  String Tratamiento;
+private  String padecimiento;
+private  String tratamiento;
 
   public PadecimientoTratamiento(String padecimiento, String tratamiento) {
       this.padecimiento = padecimiento;
-      Tratamiento = tratamiento;
+      this.tratamiento = tratamiento;
   }
 
   public PadecimientoTratamiento() {
@@ -22,16 +22,16 @@ public class PadecimientoTratamiento {
   }
 
   public String getTratamiento() {
-      return Tratamiento;
+      return tratamiento;
   }
 
   public void setTratamiento(String tratamiento) {
-      Tratamiento = tratamiento;
+      this.tratamiento = tratamiento;
   }
 
   @Override
   public String toString() {
-      return "padecimiento = '" + padecimiento + '\'' +
-              ", Tratamiento = '" + Tratamiento + '\'';
+      return "padecimiento = '" + getPadecimiento() + '\'' +
+              ", tratamiento = '" + getTratamiento() + '\'';
   }
 }

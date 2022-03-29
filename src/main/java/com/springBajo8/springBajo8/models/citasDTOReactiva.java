@@ -28,7 +28,7 @@ public class citasDTOReactiva {
   }
 
 
-  public citasDTOReactiva(String idPaciente, String nombrePaciente, String apellidosPaciente, String nombreMedico, String apellidosMedico, String fechaReservaCita, String horaReservaCita, String estadoReservaCita) {
+  public citasDTOReactiva(String idPaciente, String nombrePaciente, String apellidosPaciente, String nombreMedico, String apellidosMedico, String fechaReservaCita, String horaReservaCita, String estadoReservaCita, List<PadecimientoTratamiento> tratamientosList) {
     this.idPaciente = idPaciente;
     this.nombrePaciente = nombrePaciente;
     this.apellidosPaciente = apellidosPaciente;
@@ -37,7 +37,23 @@ public class citasDTOReactiva {
     this.fechaReservaCita = LocalDate.parse(fechaReservaCita);
     this.horaReservaCita = LocalTime.parse(horaReservaCita);
     this.estadoReservaCita = estadoReservaCita;
+    this.tratamientosList = tratamientosList;
   }
+
+
+  public citasDTOReactiva(String id, String idPaciente, String nombrePaciente, String apellidosPaciente, String nombreMedico, String apellidosMedico, String fechaReservaCita, String horaReservaCita, String estadoReservaCita, List<PadecimientoTratamiento> tratamientosList) {
+    this.id = id;
+    this.idPaciente = idPaciente;
+    this.nombrePaciente = nombrePaciente;
+    this.apellidosPaciente = apellidosPaciente;
+    this.nombreMedico = nombreMedico;
+    this.apellidosMedico = apellidosMedico;
+    this.fechaReservaCita = LocalDate.parse(fechaReservaCita);
+    this.horaReservaCita = LocalTime.parse(horaReservaCita);
+    this.estadoReservaCita = estadoReservaCita;
+    this.tratamientosList = tratamientosList;
+  }
+
 
   public String getId() {
     return id;

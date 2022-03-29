@@ -1,6 +1,7 @@
 package com.springBajo8.springBajo8.services;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import com.springBajo8.springBajo8.models.PadecimientoTratamiento;
 import com.springBajo8.springBajo8.models.citasDTOReactiva;
@@ -21,11 +22,11 @@ public interface IcitasReactivaService {
 
   Mono<citasDTOReactiva> findById(String id);
 
-  Flux<citasDTOReactiva> cancelarCita(String id);
+  Mono<citasDTOReactiva> cancelarCita(String id);
 
-  Flux<citasDTOReactiva> consultarFechaYHora(LocalDate fecha, String hora);
+  Flux<citasDTOReactiva> consultarFechaYHora(LocalDate fecha, LocalTime hora);
 
-  Flux<citasDTOReactiva> consultarMedicoQueLoAtendera(String id);
+  Mono<citasDTOReactiva> consultarMedico(String id);
 
-  Flux<List<PadecimientoTratamiento>> consultarTratamientosYPadecimientos(String id);
+  Mono<List<PadecimientoTratamiento>> consultarPadecimientoTratamiento(String id);
 }
